@@ -35,21 +35,9 @@ def container_replace_item(container, index, old_item, new_item):
 
 # ---------------------------- INTERNAL MODIFIERS ---------------------------- #
 
-INTERNAL_DECORATOR_NAMES = {"preprocess_with_functions", "preprocess"}
 
-
-def remove_internal_decorators(function_tree):
-    internal_decorators = []
-
-    for decorator in function_tree.decorator_list:
-        if (
-            isinstance(decorator, ast.Call)
-            and decorator.func.id in INTERNAL_DECORATOR_NAMES  # type: ignore
-        ):
-            internal_decorators.append(decorator)
-
-    for decorator in internal_decorators:
-        function_tree.decorator_list.remove(decorator)
+def remove_all_decorators(function_tree):
+    function_tree.decorator_list.clear()
 
 
 # -------------------------------- MODIFIERS --------------------------------- #

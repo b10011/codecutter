@@ -6,7 +6,7 @@ from importlib.util import module_from_spec
 from importlib.machinery import ModuleSpec
 from typing import Callable
 from codecutter.modifiers import (
-    remove_internal_decorators,
+    remove_all_decorators,
     replace_variables,
     replace_shortcircuit_constants,
     replace_constant_ifs,
@@ -69,11 +69,8 @@ def preprocess_with_functions(
         module_tree = ast.parse(source)
         function_tree: ast.FunctionDef = module_tree.body[0]  # type: ignore
 
-        remove_internal_decorators(function_tree)
-
-        for decorator in function_tree.decorator_list:
-            if decorator.id not in variables.keys():  # type: ignore
-                pass
+        # Remove all decorators because otherwise they get applied twice
+        remove_all_decorators(function_tree)
 
         # Manupulate code with preprocess functions until no changes were made
         # by any preprocess function
