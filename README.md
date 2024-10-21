@@ -14,7 +14,7 @@ Unlike regex-based or hacky import-time solutions, CodeCutter operates in a clea
 
 ## Documentation
 
-Will be added later, see the examples
+[A small documentation](documentation.md)
 
 ## Installation
 
