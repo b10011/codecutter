@@ -14,7 +14,7 @@ Unlike regex-based or hacky import-time solutions, CodeCutter operates in a clea
 
 ## Documentation
 
-[A small documentation](documentation.md)
+[A small documentation](https://github.com/b10011/codecutter/blob/master/documentation.md)
 
 ## Installation
 
