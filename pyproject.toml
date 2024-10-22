@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "codecutter"
-version = "0.1.2"
+version = "0.2.0"
 description = "Library for function preprocessing and optimization"
 authors = ["Niko Järvinen <nbjarvinen@gmail.com>"]
 readme = "README.md"

@@ -104,6 +104,27 @@ Performance difference (best of 5 runs with `%timeit`)
 
 Over 26% improvement!
 
+## Contributing & TODO
+
+Preprocess expressions such as `1 + 2 + 3 * value * 4` -> `3 + 12 * value`
+
+Preprocess sequential binary opterations such as `i += 1` + `i += 2` -> `i += 3`
+
+Detect deep attribute fetching in loops and replace (applies to non-functions too)
+
+```python3
+for i in range(1000):
+    self.operations["myfunction"](i)
+```
+
+with
+
+```python3
+f = self.operations["myfunction"]
+for i in range(1000):
+    f(i)
+```
+
 ## Footnote
 
 ChatGPT seems to excel at README's.

@@ -110,3 +110,45 @@ def preprocess(constants={}, variables={}, log_source=False, additional_preproce
         variables=variables,
         log_source=log_source,
     )
+
+class repreprocessable:
+    """
+    Decorator that allows for re-preprocessing of functions and methods. Unlike
+    @preprocess, this does not do any preprocessing at decorator evaluation.
+    """
+
+    def __init__(self, function):
+        self.function = function
+        self.is_method = function.__name__ != function.__qualname__
+        self.preprocessed = None
+
+    def preprocess(self, *args, **kwargs):
+        if self.is_method:
+            # If `bind` is not found in kwargs, get the first arg element
+            if "bind" in kwargs.keys():
+                bind = kwargs.pop("bind")
+            else:
+                bind, *args = args
+        else:
+            bind = None
+
+        # If variables do not exist in kwargs, add them
+        if "variables" not in kwargs.keys():
+            kwargs["variables"] = dict()
+
+        # If the decorator itself does not exist in the variables, add it
+        if "repreprocessable" not in kwargs["variables"]:
+            kwargs["variables"]["repreprocessable"] = repreprocessable
+
+        preprocessed = preprocess(*args, **kwargs)(self.function)
+
+        if bind is not None:
+            # Bind the function to an instance, because it was originally a
+            # method
+            self.preprocessed = preprocessed.__get__(bind, bind.__class__)
+        else:
+            self.preprocessed = preprocessed
+
+    def __call__(self, *args, **kwargs):
+        assert self.preprocessed is not None
+        return self.preprocessed(*args, **kwargs)
